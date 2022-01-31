@@ -116,7 +116,9 @@ namespace Worker
                 try
                 {
                     Console.Error.WriteLine("Connecting to redis");
-                    return ConnectionMultiplexer.Connect(redisHost);
+                    var redisDB = ConnectionMultiplexer.Connect(redisHost);
+                    Console.Error.WriteLine("Connected to redis");
+                    return redisDB;
                 }
                 catch (RedisConnectionException)
                 {

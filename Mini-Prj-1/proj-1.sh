@@ -15,16 +15,14 @@ echo "Installing .NET ..."
 wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
-apt-get install -y apt-transport-https
-apt-get install -y dotnet-sdk-3.1
-apt-get install -y aspnetcore-runtime-3.1
+apt update
+apt install -y apt-transport-https dotnet-sdk-3.1 aspnetcore-runtime-3.1
 
 echo "Installing NPM ..."
 apt install -y npm
 
 echo "Installing Python packages ..."
-apt install -y python3-pip
-pip3 install redis flask gunicron
+apt install -y python3-redis python3-flask python3-gunicorn
 
 echo "Installing Node modules ..."
 cd /opt/devops/voting-system/result-master
@@ -34,19 +32,17 @@ echo "Installing Nginx ..."
 apt install -y nginx
 
 echo "Configuring Postgres ..."
-su - postgres
-createuser -P root
-createdb voting
-exit
+sudo -u postgres createuser -P root
+sudo -u postgres createdb voting
 cp /opt/devops/Mini-Prj-1/config/postgresql.conf /etc/postgresql/12/main/postgresql.conf
-systemctl restart postgres.service
+systemctl restart postgresql.service
 
 echo "Configuring Redis ..."
 cp /opt/devops/Mini-Prj-1/config/redis.conf /etc/redis/redis.conf
 systemctl restart redis-server.service
 
 echo "Configuring Nginx ..."
-cp /opt/devops/Mini-Prj-1/config/default /etc/nginx/sites-enabled/
+cp /opt/devops/Mini-Prj-1/config/default /etc/nginx/sites-enabled/default
 systemctl restart nginx.service
 
 echo "Check status..."
@@ -67,3 +63,4 @@ systemctl daemon-reload
 systemctl status vote.service
 systemctl status result.service
 systemctl status worker.service
+
