@@ -34,16 +34,16 @@ su - postgres
 createuser -P root
 createdb voting
 exit
-cp /opt/devops/Mini-Proj-1/config/postgresql.conf /etc/postgresql/12/main/postgresql.conf
+cp /opt/devops/Mini-Prj-1/config/postgresql.conf /etc/postgresql/12/main/postgresql.conf
 systemctl restart postgres.service
 
 echo "Configuring Redis ..."
-cp /opt/devops/Mini-Proj-1/config/redis.conf /etc/redis/redis.conf
+cp /opt/devops/Mini-Prj-1/config/redis.conf /etc/redis/redis.conf
 systemctl restart postgres.service
 
 echo "Configuring Nginx ..."
-cp /opt/devops/Mini-Proj-1/config/default.conf /etc/nginx/conf.d/
-systemctl restart postgres.service
+cp /opt/devops/Mini-Prj-1/config/default /etc/nginx/sites-enabled/
+systemctl restart nginx.service
 
 echo "Check status..."
 systemctl status redis.service
