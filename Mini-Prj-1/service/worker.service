@@ -1,0 +1,9 @@
+[Unit]
+Description=Service for voting-app worker
+
+[Service]
+ExecStart=/opt/devops/Mini-Prj-1/runner/worker.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

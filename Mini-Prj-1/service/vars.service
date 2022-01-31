@@ -1,0 +1,9 @@
+[Unit]
+Description=Service for voting-app initializing
+
+[Service]
+ExecStart=/opt/devops/Mini-Prj-1/runner/proj-vars.sh
+# Restart=always
+
+[Install]
+WantedBy=multi-user.target
