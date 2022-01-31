@@ -52,12 +52,9 @@ systemctl status nginx.service
 npm --version
 node --version
 
-echo "Creating Directory..."
-mkdir /opt/vote-service
-
 echo "Building .NET worker app ..."
 cd /opt/devops/voting-system/worker-master
-dotnet publish -c Release -o ./out /out Worker.csproj
+dotnet publish -c Release -o ./out Worker.csproj
 
 echo "Installing services ... "
 cp /opt/devops/Mini-Prj-1/service/* /etc/systemd/system/

@@ -23,9 +23,9 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-var connectionString = process.env.PG_HOST_JS
+// var connectionString = process.env.PG_HOST_JS
 var pool = new pg.Pool({
-  connectionString: connectionString
+  connectionString: process.env.PG_HOST_JS
 });
 
 async.retry(

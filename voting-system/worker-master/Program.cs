@@ -17,7 +17,7 @@ namespace Worker
         {
             try
             {
-                var connectionString = Environment.GetEnvironmentVariable("PG_HOST_DN")
+                var connectionString = Environment.GetEnvironmentVariable("PG_HOST_DN");
                 var pgsql = OpenDbConnection(connectionString);
                 var redisConn = OpenRedisConnection("redis");
                 var redis = redisConn.GetDatabase();
@@ -48,7 +48,6 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            var connectionString = Environment.GetEnvironmentVariable("PG_HOST")
                             pgsql = OpenDbConnection(connectionString);
                         }
                         else
@@ -110,7 +109,7 @@ namespace Worker
             // Use IP address to workaround https://github.com/StackExchange/StackExchange.Redis/issues/410
             // var ipAddress = GetIp(hostname);
             // Console.WriteLine($"Found redis at {ipAddress}");
-            var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST_DN")
+            var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST_DN");
 
             while (true)
             {
