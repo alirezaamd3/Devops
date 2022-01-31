@@ -30,22 +30,6 @@ echo "Creating Directory..."
 mkdir /opt/vote-service
 
 echo "getting vote app ..."
-cd /opt/vote-service
-wget "https://hamgit.ir/voting-service/vote/-/archive/master/vote-master.tar.gz"
-tar -xf vote-master.tar.gz
-rm vote-master.tar.gz
-
-echo "getting result app ..."
-cd /opt/vote-service
-wget "https://hamgit.ir/voting-service/result/-/archive/master/result-master.tar.gz"
-tar -xf result-master.tar.gz
-rm result-master.tar.gz
-
-echo "getting worker app ..."
-cd /opt/vote-service
-wget "https://hamgit.ir/voting-service/worker/-/archive/master/worker-master.tar.gz"
-tar -xf worker-master.tar.gz
-rm worker-master.tar.gz
-
+git clone https://github.com/alirezaamd3/Devops.git --depth 1 --branch=master /opt/devops
 
 

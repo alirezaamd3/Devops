@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Data.Common;
 using System.Linq;
 using System.Net;
@@ -16,7 +17,8 @@ namespace Worker
         {
             try
             {
-                var pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
+                var connectionString = Environment.GetEnvironmentVariable("PG_HOST_DN")
+                var pgsql = OpenDbConnection(connectionString);
                 var redisConn = OpenRedisConnection("redis");
                 var redis = redisConn.GetDatabase();
 
@@ -46,7 +48,8 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Server=db;Username=postgres;Password=postgres;");
+                            var connectionString = Environment.GetEnvironmentVariable("PG_HOST")
+                            pgsql = OpenDbConnection(connectionString);
                         }
                         else
                         { // Normal +1 vote requested
@@ -105,15 +108,16 @@ namespace Worker
         private static ConnectionMultiplexer OpenRedisConnection(string hostname)
         {
             // Use IP address to workaround https://github.com/StackExchange/StackExchange.Redis/issues/410
-            var ipAddress = GetIp(hostname);
-            Console.WriteLine($"Found redis at {ipAddress}");
+            // var ipAddress = GetIp(hostname);
+            // Console.WriteLine($"Found redis at {ipAddress}");
+            var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST_DN")
 
             while (true)
             {
                 try
                 {
                     Console.Error.WriteLine("Connecting to redis");
-                    return ConnectionMultiplexer.Connect(ipAddress);
+                    return ConnectionMultiplexer.Connect(redisHost);
                 }
                 catch (RedisConnectionException)
                 {
