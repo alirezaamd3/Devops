@@ -60,18 +60,18 @@ echo "Installing services ... "
 touch /opt/devops/environment
 chmod +x /opt/devops/Mini-Prj-1/runner/*.sh
 # rm /opt/devops/Mini-Prj-1/service/result.sh
-mkdir /etc/systemd/system/votingapp
-retval=$?
-if [ $retval -ne 0 ]; then
-    systemctl stop vars.service
-    systemctl stop vote.service
-    systemctl stop result.service
-    systemctl stop worker.service
-    rm -r /etc/systemd/system/votingapp
-    systemctl daemon-reload 
-    mkdir /etc/systemd/system/votingapp
-fi
-cp /opt/devops/Mini-Prj-1/service/* /etc/systemd/system/votingapp
+# mkdir /etc/systemd/system/votingapp
+# retval=$?
+# if [ $retval -ne 0 ]; then
+#     systemctl stop vars.service
+#     systemctl stop vote.service
+#     systemctl stop result.service
+#     systemctl stop worker.service
+#     rm -r /etc/systemd/system/votingapp
+#     systemctl daemon-reload 
+#     mkdir /etc/systemd/system/votingapp
+# fi
+cp /opt/devops/Mini-Prj-1/service/* /etc/systemd/system/
 systemctl daemon-reload 
 systemctl restart vars.service
 systemctl restart vote.service
