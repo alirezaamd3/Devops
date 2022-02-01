@@ -13,6 +13,8 @@ redis_host = os.getenv('REDIS_IP', '127.0.0.1')
 redis_port = os.getenv('REDIS_PORT', 6379)
 redis_pass = os.getenv('REDIS_PASS', '')
 
+print("Redis: ", redis_host, ":", redis_port, " pass: ", redis_pass)
+
 hostname = socket.gethostname()
 
 app = Flask(__name__)

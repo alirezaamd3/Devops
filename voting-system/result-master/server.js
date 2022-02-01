@@ -24,6 +24,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 // var connectionString = process.env.PG_HOST_JS
+
 var pool = new pg.Pool({
   connectionString: process.env.PG_HOST_JS
 });
@@ -33,6 +34,7 @@ async.retry(
   function(callback) {
     pool.connect(function(err, client, done) {
       if (err) {
+        console.error(process.env.PG_HOST_JS);
         console.error("Waiting for db");
       }
       callback(err, client);

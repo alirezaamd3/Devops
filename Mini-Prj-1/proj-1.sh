@@ -3,6 +3,9 @@
 # Befor anything, run: git clone https://github.com/alirezaamd3/Devops.git --depth 1 --branch=master /opt/devops
 
 echo "Peparing for install ..."
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
 apt update
 
 echo "Installing Postgresql..."
@@ -12,21 +15,18 @@ echo "Installing Redis..."
 apt install -y redis
 
 echo "Installing .NET ..."
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-apt update
 apt install -y apt-transport-https dotnet-sdk-3.1 aspnetcore-runtime-3.1
 
 echo "Installing NPM ..."
 apt install -y npm
 
 echo "Installing Python packages ..."
-apt install -y python3-redis python3-flask python3-gunicorn
+apt install -y python3-redis python3-flask gunicorn
 
 echo "Installing Node modules ..."
 cd /opt/devops/voting-system/result-master
 npm ci
+# npm install -g forever
 
 echo "Installing Nginx ..."
 apt install -y nginx
@@ -57,10 +57,26 @@ cd /opt/devops/voting-system/worker-master
 dotnet publish -c Release -o ./out Worker.csproj
 
 echo "Installing services ... "
+touch /opt/devops/environment
 chmod +x /opt/devops/Mini-Prj-1/runner/*.sh
-cp /opt/devops/Mini-Prj-1/service/* /etc/systemd/system/
+# rm /opt/devops/Mini-Prj-1/service/result.sh
+mkdir /etc/systemd/system/votingapp
+retval=$?
+if [ $retval -ne 0 ]; then
+    systemctl stop vars.service
+    systemctl stop vote.service
+    systemctl stop result.service
+    systemctl stop worker.service
+    rm -r /etc/systemd/system/votingapp
+    systemctl daemon-reload 
+    mkdir /etc/systemd/system/votingapp
+fi
+cp /opt/devops/Mini-Prj-1/service/* /etc/systemd/system/votingapp
 systemctl daemon-reload 
-systemctl status vote.service
-systemctl status result.service
-systemctl status worker.service
+systemctl restart vars.service
+systemctl restart vote.service
+systemctl restart result.service
+systemctl restart worker.service
+cd /opt/devops/voting-system/result-master
+# forever start server.js
 

@@ -3,6 +3,7 @@ Description=Service for voting-app initializing
 
 [Service]
 ExecStart=/opt/devops/Mini-Prj-1/runner/proj-vars.sh
+Type=oneshot
 # Restart=always
 
 [Install]

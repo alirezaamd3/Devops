@@ -2,6 +2,7 @@
 Description=Service for voting-app vote
 
 [Service]
+EnvironmentFile=/opt/devops/environment
 ExecStart=/opt/devops/Mini-Prj-1/runner/vote.sh
 Restart=always
 

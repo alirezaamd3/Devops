@@ -1,0 +1,18 @@
+#!/bin/sh
+
+REDIS_IP="127.0.0.1"
+REDIS_PORT=6379
+REDIS_PASS="MyDevOpsProj"
+PG_DB="voting"
+PG_IP="127.0.0.1"
+PG_PORT=5432
+PG_USER="root"
+PG_PASS="MyDevopsProj"
+
+echo "REDIS_IP=\"$REDIS_IP\"" >> /etc/environment
+echo "REDIS_PORT=$REDIS_PORT" >> /etc/environment
+echo "REDIS_PASS=\"$REDIS_PASS\"" >> /etc/environment
+echo "REDIS_HOST_DN=\"$REDIS_IP:$REDIS_PORT,password=$REDIS_PASS\"" >> /etc/environment
+echo "PG_HOST_DN=\"Server=$PG_IP;Port=$PG_PORT;User Id=$PG_USER;Password=$PG_PASS;Database=$PG_DB;\"" >> /etc/environment
+echo "PG_HOST_JS=\"postgres://$PG_USER:$PG_PASS@$PG_IP:$PG_PORT/$PG_DB\"" >> /etc/environment
+
