@@ -1,0 +1,27 @@
+---
+- name: Install postgres package
+  apt:
+    name:
+      - postgresql
+    state: present
+    update_cache: true
+
+- name: Create DB
+  postgresql_db:
+    name: voting
+
+- name: Create User
+  postgresql_user:
+    db: voting
+    name: root
+    password: "{{ pg_pass }}"
+
+- name: Copy postgresql config file
+  ansbile.builtin.copy:
+    - src: /opt/devops/Mini-Prj-1/config/redis.conf
+    - dst: /etc/redis/redis.conf
+
+- name: Restart postgresql Service
+  ansible.builtin.service:
+    name: redis-server
+    state: restarted

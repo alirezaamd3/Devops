@@ -1,0 +1,39 @@
+---
+- name: Copy Files
+  copy:
+    src: /opt/devops/voting-system/result-master
+    dst: /opt/devops/voting-system
+    directory_mode: yes
+
+- name: Install Node
+  apt:
+    name:
+      - npm
+    state: present
+    update_cache: true
+
+- name: Install Node dependencies
+  ansible.builtin.command:
+    cmd:
+      - nmp ci
+    chdir: /opt/devops/voting-system/result-master
+
+- name: Copy Runner Script
+  copy:
+    src: /opt/devops/Mini-Prj-1/runner/result.sh
+    dst: /opt/devops/Mini-Prj-1/runner/result.sh
+
+- name: Copy Service file
+  copy:
+    src: /opt/devops/Mini-Prj-1/service/result.service
+    dst: /etc/systemd/system
+
+- name: Reload Systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Restart Result Service
+  ansible.builtin.systemd:
+    name: result
+    state: restarted
+    

@@ -1,0 +1,25 @@
+---
+- hosts: all
+  name: Install Requirements
+  become: true
+  gather_facts: true
+  roles:
+    - {role: setup_nginx}
+    - {role: setup_pgsql}
+    - {role: setup_redis}
+
+
+- hosts: all
+  name: Initialize Environment
+  become: true
+  roles:
+    - {role: environment_init}
+
+- hosts: all
+  name: Install Apps
+  become: true
+  roles:
+    - {role: vote_app}
+    - {role: worker_app}
+    - {role: result_app}
+    

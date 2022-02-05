@@ -1,0 +1,49 @@
+---
+- name: Copy Files
+  copy:
+    src: /opt/devops/voting-system/worker-master
+    dst: /opt/devops/voting-system
+    directory_mode: yes
+
+- name: Add dotnet repository
+  ansible.builtin.command:
+    cmd:
+      - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+      - sudo dpkg -i packages-microsoft-prod.deb
+      - rm packages-microsoft-prod.deb
+      - apt update
+
+- name: Install dotnet
+  apt:
+    name:
+      - apt-transport-https
+      - dotnet-sdk-3.1
+      - aspnetcore-runtime-3.1
+    state: present
+    update_cache: true
+
+- name: Build app
+  ansible.builtin.command:
+    cmd:
+      - dotnet publish -c Release -o ./out Worker.csproj
+    chdir: /opt/devops/voting-system/worker-master
+
+- name: Copy Runner Script
+  copy:
+    src: /opt/devops/Mini-Prj-1/runner/worker.sh
+    dst: /opt/devops/Mini-Prj-1/runner/worker.sh
+
+- name: Copy Service file
+  copy:
+    src: /opt/devops/Mini-Prj-1/service/worker.service
+    dst: /etc/systemd/system
+
+- name: Reload Systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Restart Vote Service
+  ansible.builtin.systemd:
+    name: worker
+    state: restarted
+    

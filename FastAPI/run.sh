@@ -1,9 +1,16 @@
 #!/bin/sh
 
-cd /d/Learning/FastAPI
+cd /root/HA_Test/FastAPI
+TYPE=$1
 
-echo "server $1" > num.txt
-echo "Running server $1"
-uvicorn main:app --reload --host 0.0.0.0 --port $2 
+if [ -z "$1" ]; then
+    TYPE=$(cat /root/HA_Test/type)
+else
+    TYPE=$1
+fi
+
+echo "server $TYPE" > num.txt
+echo "Running server $TYPE"
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 sleep 5s
 

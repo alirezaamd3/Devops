@@ -1,0 +1,32 @@
+---
+- hosts: all
+  name: Creating Directories
+  become: true
+  tasks:
+    - file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 775
+      loop:
+        - /opt/devops
+        - /opt/devops/Mini-Prj-1
+        - /opt/devops/Mini-Prj-1/runner
+        - /opt/devops/voting-system
+
+- name: Creating Env file
+  file:
+    path: /opt/devops/environment
+    state: absent
+
+- name: Add Vars
+  lineinfile:
+    path: /opt/devops/environment
+    line: 
+      - "REDIS_IP={{ redis_ip }}"
+      - "REDIS_PORT={{ redis_port }}"
+      - "REDIS_PASS={{ redis_pass }}"
+      - "REDIS_HOST_DN=\"{{ redis_ip }}:{{ redis_port }},password={{ redis_pass }}\""
+      - "PG_HOST_DN=\"Server={{ pg_ip }};Port={{ pg_port }};User Id={{ pg_user }};Password={{ pg_pass }};Database={{ pg_db }};\""
+      - "PG_HOST_JS=\"postgres://{{ pg_user }}:{{ pg_pass }}@{{ pg_ip }}:{{ pg_port }}/{{ pg_db }}\""

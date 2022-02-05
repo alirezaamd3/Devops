@@ -1,0 +1,11 @@
+[Unit]
+Description=Service for HA Test
+
+[Service]
+EnvironmentFile=/root/HA_Test/environment
+WorkingDirectory=/root/HA_Test/FastAPI
+ExecStart=/root/HA_Test/FastAPI/run.sh 
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

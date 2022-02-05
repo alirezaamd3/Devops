@@ -1,0 +1,18 @@
+---
+- name: Install redis package
+  apt:
+    name:
+      - redis
+      - redis-server
+    state: present
+    update_cache: true
+
+- name: Copy Redis config file
+  ansbile.builtin.copy:
+    - src: /opt/devops/Mini-Prj-1/config/redis.conf
+    - dst: /etc/redis/redis.conf
+
+- name: Restart Redis Service
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted

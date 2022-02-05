@@ -1,0 +1,11 @@
+ansible_password: alireza
+ansible_become_password: alireza
+
+redis_ip: "127.0.0.1"
+redis_port: 6379
+redis_pass: MyDevOpsProj
+pg_db: voting
+pg_user: root
+pg_ip: "127.0.0.1"
+pg_port: 5432
+pg_pass: MyDevopsProj

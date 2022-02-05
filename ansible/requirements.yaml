@@ -1,0 +1,9 @@
+- src: https://github.com/cloudalchemy/ansible-prometheus
+  version: master
+  name: promatheus_install
+
+- src: https://github.com/cloudalchemy/ansible-systemd-exporter
+  version: master
+  name: promatheus_systemd_exporter_install
+
+
